@@ -26,7 +26,8 @@ Propuesta integral, optimizada para tiempo de carga y mantenimiento simple (solo
 | 1 | **Home** | `index.html` | ✅ Hero + versículo, tarjetas de reuniones, sección redes sociales (YouTube/IG/FB), versículo destacado, CTA contacto |
 | 2 | **Declaración de Fe** | `declaracion-de-fe.html` | ✅ 10 artículos doctrinales en acordeón colapsable (Alpine.js) |
 | 3 | **Reuniones** | `reuniones.html` | ✅ 3 tarjetas de horario + ubicación + banner YouTube en vivo |
-| 4 | **Contacto** | `contacto.html` | ✅ Formulario, mapa Google embebido, datos de contacto, WhatsApp |
+| 4 | **Noticias** | `noticias.html` | ✅ Página placeholder “Próximamente” con enlaces a redes sociales |
+| 5 | **Contacto** | `contacto.html` | ✅ Formulario, mapa Google embebido, datos de contacto, WhatsApp |
 
 **Secciones futuras (no implementadas aún):**
 - Quiénes somos — Historia, misión, visión, pastores/liderazgo.
@@ -57,8 +58,10 @@ Website/
 ├── index.html                  # Página de inicio
 ├── declaracion-de-fe.html      # Declaración de Fe (acordeón)
 ├── reuniones.html              # Horarios y YouTube en vivo
+├── noticias.html               # Noticias (próximamente)
 ├── contacto.html               # Formulario, mapa, datos de contacto
 ├── styles.css                  # Estilos complementarios (animaciones, a11y)
+├── .gitignore                  # Archivos ignorados por git
 ├── Logo cafe grande.png        # Logo vertical
 ├── Logo cafe pequeño.png       # Logo horizontal
 ├── Afiche reuniones.png        # Referencia de diseño
@@ -116,15 +119,17 @@ Website/
 | 1 | Framework | ✅ HTML + Tailwind CDN + Alpine.js (máxima simplicidad) |
 | 2 | Logo y colores | ✅ Logo proporcionado (vertical + horizontal). Paleta: `#e5e5e6`, `#ac9784`, `#fff`, `#000` |
 | 3 | Idioma | ✅ Español únicamente |
+| 5 | Hosting | ✅ GitHub Pages — https://icech80.github.io/website/ (repo `icech80/website`) |
 | 7 | Redes sociales | ✅ YouTube, Instagram, Facebook, WhatsApp |
+| 8 | Teléfono / WhatsApp | ✅ +56 9 7499 1233 |
 
 ## 9. Decisiones pendientes
 
 1. Configurar **Formspree ID** en `contacto.html` (action del formulario).
-2. **Dominio**: ¿ya existe uno o se debe registrar?
-3. **Hosting**: GitHub Pages, Cloudflare Pages o Netlify.
-4. ¿Incluir sección de **ofrenda/donaciones** en la siguiente iteración?
-5. ¿Agregar páginas de **Quiénes somos** y **Ministerios**?
+2. **Dominio personalizado**: ¿ya existe uno o se debe registrar? (actualmente en `icech80.github.io/website`).
+3. ¿Incluir sección de **ofrenda/donaciones** en la siguiente iteración?
+4. ¿Agregar páginas de **Quiénes somos** y **Ministerios**?
+5. Contenido para la sección de **Noticias**.
 
 ---
 
