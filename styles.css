@@ -1,0 +1,65 @@
+/* ============================================
+   Iglesia Cristiana Echaurren 80
+   Estilos complementarios a Tailwind CSS
+   ============================================ */
+
+/* Alpine.js: ocultar elementos con x-cloak */
+[x-cloak] {
+  display: none !important;
+}
+
+/* Smooth scroll global */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Transición para acordeón (Alpine x-collapse plugin) */
+[x-collapse] {
+  overflow: hidden;
+}
+
+/* Selección de texto con color corporativo */
+::selection {
+  background-color: #ac9784;
+  color: #ffffff;
+}
+
+/* Focus visible para accesibilidad */
+:focus-visible {
+  outline: 2px solid #ac9784;
+  outline-offset: 2px;
+}
+
+/* Animación sutil para tarjetas al entrar en viewport */
+@media (prefers-reduced-motion: no-preference) {
+  .fade-in {
+    animation: fadeInUp 0.6s ease-out both;
+  }
+
+  @keyframes fadeInUp {
+    from {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Botón WhatsApp: pulso suave */
+@media (prefers-reduced-motion: no-preference) {
+  a[aria-label="Escribir por WhatsApp"] {
+    animation: pulse-whatsapp 2s infinite;
+  }
+
+  @keyframes pulse-whatsapp {
+    0%, 100% {
+      box-shadow: 0 0 0 0 rgba(37, 211, 102, 0.5);
+    }
+    50% {
+      box-shadow: 0 0 0 12px rgba(37, 211, 102, 0);
+    }
+  }
+}
