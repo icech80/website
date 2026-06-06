@@ -37,24 +37,44 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="lang.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-white text-gray-900 font-sans">
+<body class="bg-white text-gray-900 font-sans" x-data>
 
   <!-- ============ HEADER / NAV ============ -->
-  <header class="bg-white shadow-sm sticky top-0 z-50" x-data="{ open: false }">
+  <header class="bg-white shadow-sm sticky top-0 z-50" x-data="{ open: false, lang: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         <a href="index.html" class="flex-shrink-0">
           <img src="Logo cafe grande.png" alt="Iglesia Cristiana Echaurren 80" class="h-14 w-auto">
         </a>
-        <nav class="hidden md:flex items-center space-x-8">
-          <a href="index.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Inicio</a>
-          <a href="declaracion-de-fe.html" class="text-cafe-600 font-semibold border-b-2 border-cafe-400 pb-1">Declaración de Fe</a>
-          <a href="reuniones.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Reuniones</a>
-          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Noticias</a>
-          <a href="contacto.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Contacto</a>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a>
+          <a href="quienes-somos.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a>
+          <a href="declaracion-de-fe.html" class="text-cafe-600 font-semibold border-b-2 border-cafe-400 pb-1"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a>
+          <a href="reuniones.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a>
+          <a href="eventos.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a>
+          <a href="ministerios.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a>
+          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a>
+          <a href="contacto.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a>
+          <!-- Language selector -->
+          <div class="relative" @click.away="lang = false">
+            <button @click="lang = !lang" class="flex items-center gap-1 text-gray-500 hover:text-cafe-500 transition-colors text-sm font-medium px-2 py-1 rounded-md hover:bg-gris">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+              <span x-text="$store.lang.current.toUpperCase()">ES</span>
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="lang" x-cloak x-transition class="absolute right-0 mt-2 w-36 bg-white rounded-lg shadow-lg border py-1 z-50">
+              <a href="#" @click.prevent="$store.lang.set('es'); lang = false" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors" :class="$store.lang.current === 'es' ? 'text-cafe-700 bg-cafe-50 font-medium' : 'text-gray-500 hover:bg-gris hover:text-gray-700'">
+                <span>🇪🇸</span> Español
+              </a>
+              <a href="#" @click.prevent="$store.lang.set('en'); lang = false" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors" :class="$store.lang.current === 'en' ? 'text-cafe-700 bg-cafe-50 font-medium' : 'text-gray-500 hover:bg-gris hover:text-gray-700'">
+                <span>🇺🇸</span> English
+              </a>
+            </div>
+          </div>
         </nav>
         <button @click="open = !open" class="md:hidden p-2 rounded-md text-cafe-600 hover:bg-gris focus:outline-none" aria-label="Menú">
           <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -64,11 +84,19 @@
     </div>
     <div x-show="open" x-cloak x-transition class="md:hidden bg-white border-t">
       <nav class="px-4 py-3 space-y-2">
-        <a href="index.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Inicio</a>
-        <a href="declaracion-de-fe.html" class="block py-2 px-3 rounded-md bg-cafe-50 text-cafe-700 font-medium">Declaración de Fe</a>
-        <a href="reuniones.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Reuniones</a>
-          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Noticias</a>
-        <a href="contacto.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Contacto</a>
+        <a href="index.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a>
+        <a href="quienes-somos.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a>
+        <a href="declaracion-de-fe.html" class="block py-2 px-3 rounded-md bg-cafe-50 text-cafe-700 font-medium"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a>
+        <a href="reuniones.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a>
+        <a href="eventos.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a>
+        <a href="ministerios.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a>
+        <a href="noticias.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a>
+        <a href="contacto.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a>
+        <!-- Language selector mobile -->
+        <div class="border-t border-gray-100 pt-2 mt-2 flex gap-2 px-3">
+          <a href="#" @click.prevent="$store.lang.set('es')" class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md transition-colors" :class="$store.lang.current === 'es' ? 'text-cafe-700 font-medium bg-cafe-50' : 'text-gray-500 hover:bg-gris'">🇪🇸 ES</a>
+          <a href="#" @click.prevent="$store.lang.set('en')" class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md transition-colors" :class="$store.lang.current === 'en' ? 'text-cafe-700 font-medium bg-cafe-50' : 'text-gray-500 hover:bg-gris'">🇺🇸 EN</a>
+        </div>
       </nav>
     </div>
   </header>
@@ -76,9 +104,9 @@
   <!-- ============ PAGE HEADER ============ -->
   <section class="bg-gris py-16 md:py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="font-serif text-3xl md:text-4xl font-bold text-cafe-800 mb-4">Declaración de Fe</h1>
+      <h1 class="font-serif text-3xl md:text-4xl font-bold text-cafe-800 mb-4"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></h1>
       <p class="text-gray-600 text-lg">
-        Los principios bíblicos que deben creer y practicar los componentes de nuestra congregación.
+        <span data-lang="es">Los principios bíblicos que deben creer y practicar los componentes de nuestra congregación.</span><span data-lang="en">The biblical principles that the members of our congregation should believe and practice.</span>
       </p>
     </div>
   </section>
@@ -92,12 +120,12 @@
         <button @click="active = active === 1 ? null : 1"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 1">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">Las Escrituras</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">Las Escrituras</span><span data-lang="en">The Scriptures</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 1 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 1" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            Las Sagradas Escrituras, o sea la Biblia, compuesta por sesenta y seis libros en el Antiguo y Nuevo Testamento son plena y verbalmente inspiradas por el Espíritu Santo. Los documentos originales son sin errores. Esta Palabra de Dios constituye la autoridad única y suficiente para todo aspecto de fe, conciencia y práctica en la vida.
+            <span data-lang="es">Las Sagradas Escrituras, o sea la Biblia, compuesta por sesenta y seis libros en el Antiguo y Nuevo Testamento son plena y verbalmente inspiradas por el Espíritu Santo. Los documentos originales son sin errores. Esta Palabra de Dios constituye la autoridad única y suficiente para todo aspecto de fe, conciencia y práctica en la vida.</span><span data-lang="en">The Holy Scriptures, that is the Bible, composed of sixty-six books in the Old and New Testaments, are fully and verbally inspired by the Holy Spirit. The original documents are without error. This Word of God constitutes the sole and sufficient authority for every aspect of faith, conscience, and practice in life.</span>
           </p>
         </div>
       </div>
@@ -107,12 +135,12 @@
         <button @click="active = active === 2 ? null : 2"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 2">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Deidad</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Deidad</span><span data-lang="en">The Deity</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 2 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 2" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            Hay un solo Dios, que existe eternamente en tres personas distintas: El Padre, El Hijo, y el Espíritu Santo. Estas tres personas son idénticas en naturaleza, iguales en poder y gloria y poseen los mismos atributos y perfecciones.
+            <span data-lang="es">Hay un solo Dios, que existe eternamente en tres personas distintas: El Padre, El Hijo, y el Espíritu Santo. Estas tres personas son idénticas en naturaleza, iguales en poder y gloria y poseen los mismos atributos y perfecciones.</span><span data-lang="en">There is one God, who exists eternally in three distinct persons: The Father, The Son, and the Holy Spirit. These three persons are identical in nature, equal in power and glory, and possess the same attributes and perfections.</span>
           </p>
         </div>
       </div>
@@ -122,12 +150,12 @@
         <button @click="active = active === 3 ? null : 3"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 3">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Persona y Obra del Señor Jesucristo</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Persona y Obra del Señor Jesucristo</span><span data-lang="en">The Person and Work of the Lord Jesus Christ</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 3 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 3" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            El Señor Jesucristo, el eterno Hijo de Dios, se hizo hombre, sin dejar de ser Dios, habiendo sido engendrado por el Espíritu Santo y nacido de la virgen María, para poder revelar a Dios y redimir a la humanidad perdida. Él consumó la obra de la redención por su muerte vicaria en la cruz. Su resurrección corporal demuestra la satisfacción de Dios con la obra de la salvación. Ahora está ascendido a la diestra del Padre, donde intercede a favor de los redimidos y ministra como nuestro Gran Sumo Sacerdote.
+            <span data-lang="es">El Señor Jesucristo, el eterno Hijo de Dios, se hizo hombre, sin dejar de ser Dios, habiendo sido engendrado por el Espíritu Santo y nacido de la virgen María, para poder revelar a Dios y redimir a la humanidad perdida. Él consumó la obra de la redención por su muerte vicaria en la cruz. Su resurrección corporal demuestra la satisfacción de Dios con la obra de la salvación. Ahora está ascendido a la diestra del Padre, donde intercede a favor de los redimidos y ministra como nuestro Gran Sumo Sacerdote.</span><span data-lang="en">The Lord Jesus Christ, the eternal Son of God, became man without ceasing to be God, having been begotten by the Holy Spirit and born of the virgin Mary, in order to reveal God and redeem lost humanity. He accomplished the work of redemption through His vicarious death on the cross. His bodily resurrection demonstrates God's satisfaction with the work of salvation. He is now ascended to the right hand of the Father, where He intercedes on behalf of the redeemed and ministers as our Great High Priest.</span>
           </p>
         </div>
       </div>
@@ -137,12 +165,12 @@
         <button @click="active = active === 4 ? null : 4"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 4">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Persona y Obra del Espíritu Santo</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Persona y Obra del Espíritu Santo</span><span data-lang="en">The Person and Work of the Holy Spirit</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 4 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 4" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            El Espíritu Santo es la tercera persona de la Trinidad y no una fuerza impersonal. En la presente edad de la iglesia, no solo regenera al que cree en Cristo Jesús, sino que también en ese mismo momento comienza a morar personalmente dentro del creyente, bautizándole en el Cuerpo de Cristo y sellándole hasta el día de la redención completa. Él capacita al creyente para vivir una vida santa y victoriosa y para utilizar eficazmente los dones espirituales para la extensión y edificación de la iglesia.
+            <span data-lang="es">El Espíritu Santo es la tercera persona de la Trinidad y no una fuerza impersonal. En la presente edad de la iglesia, no solo regenera al que cree en Cristo Jesús, sino que también en ese mismo momento comienza a morar personalmente dentro del creyente, bautizándole en el Cuerpo de Cristo y sellándole hasta el día de la redención completa. Él capacita al creyente para vivir una vida santa y victoriosa y para utilizar eficazmente los dones espirituales para la extensión y edificación de la iglesia.</span><span data-lang="en">The Holy Spirit is the third person of the Trinity and not an impersonal force. In the present church age, He not only regenerates the one who believes in Christ Jesus, but also at that very moment begins to personally indwell the believer, baptizing them into the Body of Christ and sealing them until the day of complete redemption. He enables the believer to live a holy and victorious life and to effectively use spiritual gifts for the extension and edification of the church.</span>
           </p>
         </div>
       </div>
@@ -152,12 +180,12 @@
         <button @click="active = active === 5 ? null : 5"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 5">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Existencia y la Actividad de los Ángeles</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Existencia y la Actividad de los Ángeles</span><span data-lang="en">The Existence and Activity of Angels</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 5 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 5" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            Dios creó a los ángeles que son seres espirituales. Satanás, uno de ellos, se rebeló contra Dios arrastrando consigo a una parte de ellos y se convirtieron en enemigos de Dios y del hombre, y están bajo el juicio irreversible de Dios. Los demás ángeles permanecen fieles en su servicio constante a Dios en beneficio de los elegidos.
+            <span data-lang="es">Dios creó a los ángeles que son seres espirituales. Satanás, uno de ellos, se rebeló contra Dios arrastrando consigo a una parte de ellos y se convirtieron en enemigos de Dios y del hombre, y están bajo el juicio irreversible de Dios. Los demás ángeles permanecen fieles en su servicio constante a Dios en beneficio de los elegidos.</span><span data-lang="en">God created the angels, who are spiritual beings. Satan, one of them, rebelled against God, dragging some of them with him, and they became enemies of God and man, and are under God's irreversible judgment. The remaining angels remain faithful in their constant service to God for the benefit of the elect.</span>
           </p>
         </div>
       </div>
@@ -167,12 +195,12 @@
         <button @click="active = active === 6 ? null : 6"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 6">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Creación y Caída del Hombre</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Creación y Caída del Hombre</span><span data-lang="en">The Creation and Fall of Man</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 6 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 6" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            El hombre fue creado a la imagen y semejanza de Dios, perfecto y santo. Por el pecado de Adán toda la humanidad se hizo pecadora, con el resultado de que todo hombre es enemigo de Dios, separado de Él y sujeto a la condenación judicial de la muerte.
+            <span data-lang="es">El hombre fue creado a la imagen y semejanza de Dios, perfecto y santo. Por el pecado de Adán toda la humanidad se hizo pecadora, con el resultado de que todo hombre es enemigo de Dios, separado de Él y sujeto a la condenación judicial de la muerte.</span><span data-lang="en">Man was created in the image and likeness of God, perfect and holy. Through Adam's sin, all humanity became sinful, with the result that every person is an enemy of God, separated from Him, and subject to the judicial condemnation of death.</span>
           </p>
         </div>
       </div>
@@ -182,12 +210,12 @@
         <button @click="active = active === 7 ? null : 7"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 7">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Salvación del Hombre</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Salvación del Hombre</span><span data-lang="en">The Salvation of Man</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 7 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 7" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            El hombre es muerto espiritualmente y totalmente degenerado y sólo puede ser salvado por la regeneración obrada por el Espíritu Santo. La salvación eterna es un regalo de Dios ofrecido por Gracia, que el hombre recibe por la fe personal en la obra eficaz del Señor Jesucristo. Al nacer de nuevo el hombre es justificado, salvado para siempre y esto se manifestará en la santidad de vida y en las buenas obras.
+            <span data-lang="es">El hombre es muerto espiritualmente y totalmente degenerado y sólo puede ser salvado por la regeneración obrada por el Espíritu Santo. La salvación eterna es un regalo de Dios ofrecido por Gracia, que el hombre recibe por la fe personal en la obra eficaz del Señor Jesucristo. Al nacer de nuevo el hombre es justificado, salvado para siempre y esto se manifestará en la santidad de vida y en las buenas obras.</span><span data-lang="en">Man is spiritually dead and totally depraved and can only be saved through the regeneration wrought by the Holy Spirit. Eternal salvation is a gift from God offered by Grace, which man receives through personal faith in the efficacious work of the Lord Jesus Christ. Upon being born again, man is justified, saved forever, and this will be manifested in holiness of life and in good works.</span>
           </p>
         </div>
       </div>
@@ -197,12 +225,12 @@
         <button @click="active = active === 8 ? null : 8"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 8">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Resurrección y el Destino Final de los Hombres</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Resurrección y el Destino Final de los Hombres</span><span data-lang="en">The Resurrection and Final Destiny of Men</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 8 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 8" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            Todos los hombres serán resucitados; tanto los salvados como los perdidos. Los salvados resucitarán a la vida eterna y los perdidos a la condenación eterna. Durante el periodo entre la muerte y la resurrección, el alma y el espíritu de cada persona están conscientes en la presencia de Dios o en el infierno, separados de Dios, esperando el Juicio Final.
+            <span data-lang="es">Todos los hombres serán resucitados; tanto los salvados como los perdidos. Los salvados resucitarán a la vida eterna y los perdidos a la condenación eterna. Durante el periodo entre la muerte y la resurrección, el alma y el espíritu de cada persona están conscientes en la presencia de Dios o en el infierno, separados de Dios, esperando el Juicio Final.</span><span data-lang="en">All men will be resurrected; both the saved and the lost. The saved will be resurrected to eternal life and the lost to eternal condemnation. During the period between death and resurrection, the soul and spirit of each person are conscious either in God's presence or in hell, separated from God, awaiting the Final Judgment.</span>
           </p>
         </div>
       </div>
@@ -212,12 +240,12 @@
         <button @click="active = active === 9 ? null : 9"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 9">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">La Iglesia</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">La Iglesia</span><span data-lang="en">The Church</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 9 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 9" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            La iglesia comenzó el día de Pentecostés con la venida del Espíritu Santo, está compuesta de todo creyente verdadero en Cristo Jesús desde ese tiempo. Estos creyentes son unidos a Cristo y el uno al otro por el Espíritu Santo. Cada creyente espiritualmente es un sacerdote capacitado para ofrecer sacrificios espirituales a Dios. La Iglesia Universal en su totalidad es conocida como el Cuerpo de Cristo, cuya cabeza es Cristo mismo y sus funciones principales son las de glorificar a Dios y testificar el Evangelio de Salvación en Cristo hasta su regreso. La Iglesia se hace visible a través de las iglesias locales las cuales tienen gobierno propio, prácticamente autónomas, unidas espiritualmente y no por una oficina central.
+            <span data-lang="es">La iglesia comenzó el día de Pentecostés con la venida del Espíritu Santo, está compuesta de todo creyente verdadero en Cristo Jesús desde ese tiempo. Estos creyentes son unidos a Cristo y el uno al otro por el Espíritu Santo. Cada creyente espiritualmente es un sacerdote capacitado para ofrecer sacrificios espirituales a Dios. La Iglesia Universal en su totalidad es conocida como el Cuerpo de Cristo, cuya cabeza es Cristo mismo y sus funciones principales son las de glorificar a Dios y testificar el Evangelio de Salvación en Cristo hasta su regreso. La Iglesia se hace visible a través de las iglesias locales las cuales tienen gobierno propio, prácticamente autónomas, unidas espiritualmente y no por una oficina central.</span><span data-lang="en">The church began on the day of Pentecost with the coming of the Holy Spirit, and is composed of every true believer in Christ Jesus since that time. These believers are united to Christ and to one another by the Holy Spirit. Each believer is spiritually a priest equipped to offer spiritual sacrifices to God. The Universal Church in its entirety is known as the Body of Christ, whose head is Christ Himself, and its main functions are to glorify God and to witness the Gospel of Salvation in Christ until His return. The Church becomes visible through local churches which are self-governing, practically autonomous, spiritually united and not by a central office.</span>
           </p>
         </div>
       </div>
@@ -227,12 +255,12 @@
         <button @click="active = active === 10 ? null : 10"
                 class="w-full flex items-center justify-between py-5 text-left group focus:outline-none"
                 :aria-expanded="active === 10">
-          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors">Las Ordenanzas de la Iglesia</h2>
+          <h2 class="font-serif text-xl font-semibold text-cafe-700 group-hover:text-cafe-500 transition-colors"><span data-lang="es">Las Ordenanzas de la Iglesia</span><span data-lang="en">The Ordinances of the Church</span></h2>
           <svg class="w-5 h-5 text-cafe-400 transition-transform" :class="{ 'rotate-180': active === 10 }" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
         </button>
         <div x-show="active === 10" x-collapse x-cloak>
           <p class="pb-6 text-gray-600 leading-relaxed">
-            Las ordenanzas o mandatos que Jesucristo dio a la iglesia son: El Bautismo por inmersión y la Cena del Señor.
+            <span data-lang="es">Las ordenanzas o mandatos que Jesucristo dio a la iglesia son: El Bautismo por inmersión y la Cena del Señor.</span><span data-lang="en">The ordinances or commands that Jesus Christ gave to the church are: Baptism by immersion and the Lord's Supper.</span>
           </p>
         </div>
       </div>
@@ -250,17 +278,20 @@
           <p class="text-sm text-cafe-400 mt-1">Calle Echaurren #80, Santiago, Chile</p>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-4">Navegación</h4>
+          <h4 class="font-semibold text-white mb-4"><span data-lang="es">Navegación</span><span data-lang="en">Navigation</span></h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="index.html" class="hover:text-white transition-colors">Inicio</a></li>
-            <li><a href="declaracion-de-fe.html" class="hover:text-white transition-colors">Declaración de Fe</a></li>
-            <li><a href="reuniones.html" class="hover:text-white transition-colors">Reuniones</a></li>
-            <li><a href="noticias.html" class="hover:text-white transition-colors">Noticias</a></li>
-            <li><a href="contacto.html" class="hover:text-white transition-colors">Contacto</a></li>
+            <li><a href="index.html" class="hover:text-white transition-colors"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a></li>
+            <li><a href="quienes-somos.html" class="hover:text-white transition-colors"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a></li>
+            <li><a href="declaracion-de-fe.html" class="hover:text-white transition-colors"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a></li>
+            <li><a href="reuniones.html" class="hover:text-white transition-colors"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a></li>
+            <li><a href="eventos.html" class="hover:text-white transition-colors"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a></li>
+            <li><a href="ministerios.html" class="hover:text-white transition-colors"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a></li>
+            <li><a href="noticias.html" class="hover:text-white transition-colors"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a></li>
+            <li><a href="contacto.html" class="hover:text-white transition-colors"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-4">Contacto</h4>
+          <h4 class="font-semibold text-white mb-4"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></h4>
           <ul class="space-y-2 text-sm">
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-cafe-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -271,7 +302,7 @@
               <a href="tel:+56974991233" class="hover:text-white transition-colors">+56 9 7499 1233</a>
             </li>
           </ul>
-          <h4 class="font-semibold text-white mt-6 mb-3">Síguenos</h4>
+          <h4 class="font-semibold text-white mt-6 mb-3"><span data-lang="es">Síguenos</span><span data-lang="en">Follow Us</span></h4>
           <div class="flex items-center gap-4">
             <a href="https://www.instagram.com/echaurren80?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="text-cafe-400 hover:text-white transition-colors" aria-label="Instagram">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -286,7 +317,7 @@
         </div>
       </div>
       <div class="border-t border-cafe-700 mt-10 pt-6 text-center text-sm text-cafe-500">
-        &copy; 2026 Iglesia Cristiana Echaurren 80. Todos los derechos reservados.
+        &copy; 2026 Iglesia Cristiana Echaurren 80. <span data-lang="es">Todos los derechos reservados.</span><span data-lang="en">All rights reserved.</span>
       </div>
     </div>
   </footer>

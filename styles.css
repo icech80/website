@@ -8,6 +8,11 @@
   display: none !important;
 }
 
+/* Language toggle: hide non-active language content */
+html[lang="en"] [data-lang="es"] { display: none !important; }
+html[lang="es"] [data-lang="en"],
+html:not([lang="en"]) [data-lang="en"] { display: none !important; }
+
 /* Smooth scroll global */
 html {
   scroll-behavior: smooth;

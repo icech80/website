@@ -40,45 +40,66 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="lang.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-white text-gray-900 font-sans">
+<body class="bg-white text-gray-900 font-sans" x-data>
 
   <!-- ============ HEADER / NAV ============ -->
-  <header class="bg-white shadow-sm sticky top-0 z-50" x-data="{ open: false }">
+  <header class="bg-white shadow-sm sticky top-0 z-50" x-data="{ open: false, lang: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
-        <!-- Logo -->
         <a href="index.html" class="flex-shrink-0">
           <img src="Logo cafe grande.png" alt="Iglesia Cristiana Echaurren 80" class="h-14 w-auto">
         </a>
-
-        <!-- Desktop nav -->
-        <nav class="hidden md:flex items-center space-x-8">
-          <a href="index.html" class="text-cafe-600 font-semibold border-b-2 border-cafe-400 pb-1">Inicio</a>
-          <a href="declaracion-de-fe.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Declaración de Fe</a>
-          <a href="reuniones.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Reuniones</a>
-          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Noticias</a>
-          <a href="contacto.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Contacto</a>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="text-cafe-600 font-semibold border-b-2 border-cafe-400 pb-1"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a>
+          <a href="quienes-somos.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a>
+          <a href="declaracion-de-fe.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a>
+          <a href="reuniones.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a>
+          <a href="eventos.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a>
+          <a href="ministerios.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a>
+          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a>
+          <a href="contacto.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a>
+          <!-- Language selector -->
+          <div class="relative" @click.away="lang = false">
+            <button @click="lang = !lang" class="flex items-center gap-1 text-gray-500 hover:text-cafe-500 transition-colors text-sm font-medium px-2 py-1 rounded-md hover:bg-gris">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+              <span x-text="$store.lang.current.toUpperCase()">ES</span>
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="lang" x-cloak x-transition class="absolute right-0 mt-2 w-36 bg-white rounded-lg shadow-lg border py-1 z-50">
+              <a href="#" @click.prevent="$store.lang.set('es'); lang = false" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors" :class="$store.lang.current === 'es' ? 'text-cafe-700 bg-cafe-50 font-medium' : 'text-gray-500 hover:bg-gris hover:text-gray-700'">
+                <span>🇪🇸</span> Español
+              </a>
+              <a href="#" @click.prevent="$store.lang.set('en'); lang = false" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors" :class="$store.lang.current === 'en' ? 'text-cafe-700 bg-cafe-50 font-medium' : 'text-gray-500 hover:bg-gris hover:text-gray-700'">
+                <span>🇺🇸</span> English
+              </a>
+            </div>
+          </div>
         </nav>
-
-        <!-- Mobile hamburger -->
         <button @click="open = !open" class="md:hidden p-2 rounded-md text-cafe-600 hover:bg-gris focus:outline-none" aria-label="Menú">
           <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
           <svg x-show="open" x-cloak class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/></svg>
         </button>
       </div>
     </div>
-
-    <!-- Mobile menu -->
     <div x-show="open" x-cloak x-transition class="md:hidden bg-white border-t">
       <nav class="px-4 py-3 space-y-2">
-        <a href="index.html" class="block py-2 px-3 rounded-md bg-cafe-50 text-cafe-700 font-medium">Inicio</a>
-        <a href="declaracion-de-fe.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Declaración de Fe</a>
-        <a href="reuniones.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Reuniones</a>
-          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Noticias</a>
-        <a href="contacto.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Contacto</a>
+        <a href="index.html" class="block py-2 px-3 rounded-md bg-cafe-50 text-cafe-700 font-medium"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a>
+        <a href="quienes-somos.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a>
+        <a href="declaracion-de-fe.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a>
+        <a href="reuniones.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a>
+        <a href="eventos.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a>
+        <a href="ministerios.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a>
+        <a href="noticias.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a>
+        <a href="contacto.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a>
+        <!-- Language selector mobile -->
+        <div class="border-t border-gray-100 pt-2 mt-2 flex gap-2 px-3">
+          <a href="#" @click.prevent="$store.lang.set('es')" class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md transition-colors" :class="$store.lang.current === 'es' ? 'text-cafe-700 font-medium bg-cafe-50' : 'text-gray-500 hover:bg-gris'">🇪🇸 ES</a>
+          <a href="#" @click.prevent="$store.lang.set('en')" class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md transition-colors" :class="$store.lang.current === 'en' ? 'text-cafe-700 font-medium bg-cafe-50' : 'text-gray-500 hover:bg-gris'">🇺🇸 EN</a>
+        </div>
       </nav>
     </div>
   </header>
@@ -91,15 +112,15 @@
         Iglesia Cristiana<br>Echaurren 80
       </h1>
       <blockquote class="max-w-2xl font-serif italic text-lg md:text-xl text-cafe-600 mt-4 mb-2">
-        "Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar."
+        <span data-lang="es">"Venid a mí todos los que estáis trabajados y cargados, y yo os haré descansar."</span><span data-lang="en">"Come to me, all you who are weary and burdened, and I will give you rest."</span>
       </blockquote>
-      <cite class="text-cafe-400 font-medium not-italic">— Mateo 11:28</cite>
+      <cite class="text-cafe-400 font-medium not-italic"><span data-lang="es">— Mateo 11:28</span><span data-lang="en">— Matthew 11:28</span></cite>
       <div class="mt-10 flex flex-col sm:flex-row gap-4">
         <a href="reuniones.html" class="inline-block bg-cafe-400 hover:bg-cafe-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-md">
-          Nuestras Reuniones
+          <span data-lang="es">Nuestras Reuniones</span><span data-lang="en">Our Services</span>
         </a>
         <a href="contacto.html" class="inline-block border-2 border-cafe-400 text-cafe-600 hover:bg-cafe-50 font-semibold py-3 px-8 rounded-lg transition-colors">
-          Contáctanos
+          <span data-lang="es">Contáctanos</span><span data-lang="en">Contact Us</span>
         </a>
       </div>
     </div>
@@ -108,11 +129,11 @@
   <!-- ============ BIENVENIDA ============ -->
   <section class="py-16 md:py-24">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-6">Bienvenidos</h2>
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-6"><span data-lang="es">Bienvenidos</span><span data-lang="en">Welcome</span></h2>
       <p class="text-gray-600 text-lg leading-relaxed">
-        Somos una comunidad cristiana ubicada en Calle Echaurren #80, Santiago.
+        <span data-lang="es">Somos una comunidad cristiana ubicada en Calle Echaurren #80, Santiago.
         Nos reunimos para estudiar la Palabra de Dios, orar juntos y edificarnos
-        mutuamente en la fe. Le invitamos a conocernos y ser parte de nuestra familia.
+        mutuamente en la fe. Le invitamos a conocernos y ser parte de nuestra familia.</span><span data-lang="en">We are a Christian community located at Calle Echaurren #80, Santiago. We gather to study the Word of God, pray together, and build each other up in faith. We invite you to get to know us and become part of our family.</span>
       </p>
     </div>
   </section>
@@ -120,7 +141,7 @@
   <!-- ============ REUNIONES (resumen) ============ -->
   <section class="bg-gris py-16 md:py-24">
     <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 text-center mb-12">Nuestras Reuniones</h2>
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 text-center mb-12"><span data-lang="es">Nuestras Reuniones</span><span data-lang="en">Our Services</span></h2>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
 
         <!-- Card 1 -->
@@ -128,8 +149,8 @@
           <div class="w-14 h-14 mx-auto mb-4 bg-cafe-100 rounded-full flex items-center justify-center">
             <svg class="w-7 h-7 text-cafe-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6v6l4 2m6-2a10 10 0 11-20 0 10 10 0 0120 0z"/></svg>
           </div>
-          <h3 class="font-semibold text-lg text-cafe-700 mb-2">Escuela Dominical</h3>
-          <p class="text-gray-500">Domingo, 11:45 hrs.</p>
+          <h3 class="font-semibold text-lg text-cafe-700 mb-2"><span data-lang="es">Escuela Dominical</span><span data-lang="en">Sunday School</span></h3>
+          <p class="text-gray-500"><span data-lang="es">Domingo, 11:45 hrs.</span><span data-lang="en">Sunday, 11:45 AM</span></p>
         </div>
 
         <!-- Card 2 -->
@@ -137,8 +158,8 @@
           <div class="w-14 h-14 mx-auto mb-4 bg-cafe-100 rounded-full flex items-center justify-center">
             <svg class="w-7 h-7 text-cafe-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/></svg>
           </div>
-          <h3 class="font-semibold text-lg text-cafe-700 mb-2">Estudio Bíblico y Oración</h3>
-          <p class="text-gray-500">Miércoles, 19:30 hrs.</p>
+          <h3 class="font-semibold text-lg text-cafe-700 mb-2"><span data-lang="es">Estudio Bíblico y Oración</span><span data-lang="en">Bible Study & Prayer</span></h3>
+          <p class="text-gray-500"><span data-lang="es">Miércoles, 19:30 hrs.</span><span data-lang="en">Wednesday, 7:30 PM</span></p>
         </div>
 
         <!-- Card 3 -->
@@ -146,14 +167,14 @@
           <div class="w-14 h-14 mx-auto mb-4 bg-cafe-100 rounded-full flex items-center justify-center">
             <svg class="w-7 h-7 text-cafe-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M17 20h5v-2a4 4 0 00-3-3.87M9 20H4v-2a4 4 0 013-3.87m9-4a4 4 0 10-8 0 4 4 0 008 0zm6 4a4 4 0 10-8 0h8z"/></svg>
           </div>
-          <h3 class="font-semibold text-lg text-cafe-700 mb-2">Mujeres y Jóvenes</h3>
-          <p class="text-gray-500">Un sábado al mes</p>
+          <h3 class="font-semibold text-lg text-cafe-700 mb-2"><span data-lang="es">Mujeres y Jóvenes</span><span data-lang="en">Women & Youth</span></h3>
+          <p class="text-gray-500"><span data-lang="es">Un sábado al mes</span><span data-lang="en">One Saturday per month</span></p>
         </div>
 
       </div>
       <div class="text-center mt-10">
         <a href="reuniones.html" class="text-cafe-500 hover:text-cafe-700 font-medium transition-colors underline underline-offset-4">
-          Ver más detalles →
+          <span data-lang="es">Ver más detalles →</span><span data-lang="en">View more details →</span>
         </a>
       </div>
     </div>
@@ -162,13 +183,13 @@
   <!-- ============ DECLARACIÓN DE FE (resumen) ============ -->
   <section class="py-16 md:py-24">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-6">Declaración de Fe</h2>
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-6"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></h2>
       <p class="text-gray-600 text-lg leading-relaxed mb-8">
-        Nuestros principios bíblicos fundamentan lo que creemos y practicamos como congregación.
-        Conozca las doctrinas esenciales que nos guían.
+        <span data-lang="es">Nuestros principios bíblicos fundamentan lo que creemos y practicamos como congregación.
+        Conozca las doctrinas esenciales que nos guían.</span><span data-lang="en">Our biblical principles form the foundation of what we believe and practice as a congregation. Learn about the essential doctrines that guide us.</span>
       </p>
       <a href="declaracion-de-fe.html" class="inline-block bg-cafe-400 hover:bg-cafe-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-md">
-        Leer Declaración Completa
+        <span data-lang="es">Leer Declaración Completa</span><span data-lang="en">Read Full Statement</span>
       </a>
     </div>
   </section>
@@ -176,9 +197,9 @@
   <!-- ============ REDES SOCIALES ============ -->
   <section class="bg-white py-16 md:py-24">
     <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-4">Conéctese con nosotros</h2>
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-4"><span data-lang="es">Conéctese con nosotros</span><span data-lang="en">Connect with Us</span></h2>
       <p class="text-gray-600 text-lg mb-10 max-w-2xl mx-auto">
-        Síganos en nuestras redes sociales para mantenerse informado de actividades, devocionales y más.
+        <span data-lang="es">Síganos en nuestras redes sociales para mantenerse informado de actividades, devocionales y más.</span><span data-lang="en">Follow us on social media to stay up to date with activities, devotionals, and more.</span>
       </p>
       <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
@@ -188,9 +209,9 @@
           <svg class="w-12 h-12 mx-auto mb-4 text-red-600" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
           <h3 class="font-semibold text-lg text-gray-800 mb-2">YouTube</h3>
           <p class="text-gray-500 text-sm leading-relaxed">
-            Vea las reuniones <strong>en vivo</strong> y acceda a las grabaciones de servicios anteriores.
+            <span data-lang="es">Vea las reuniones <strong>en vivo</strong> y acceda a las grabaciones de servicios anteriores.</span><span data-lang="en">Watch services <strong>live</strong> and access recordings of previous services.</span>
           </p>
-          <span class="inline-block mt-4 text-red-600 font-medium text-sm group-hover:underline">Suscríbase al canal →</span>
+          <span class="inline-block mt-4 text-red-600 font-medium text-sm group-hover:underline"><span data-lang="es">Suscríbase al canal →</span><span data-lang="en">Subscribe to our channel →</span></span>
         </a>
 
         <!-- Instagram -->
@@ -199,9 +220,9 @@
           <svg class="w-12 h-12 mx-auto mb-4 text-purple-600" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
           <h3 class="font-semibold text-lg text-gray-800 mb-2">Instagram</h3>
           <p class="text-gray-500 text-sm leading-relaxed">
-            Fotos, historias y publicaciones de nuestra comunidad y eventos.
+            <span data-lang="es">Fotos, historias y publicaciones de nuestra comunidad y eventos.</span><span data-lang="en">Photos, stories, and posts from our community and events.</span>
           </p>
-          <span class="inline-block mt-4 text-purple-600 font-medium text-sm group-hover:underline">Seguir en Instagram →</span>
+          <span class="inline-block mt-4 text-purple-600 font-medium text-sm group-hover:underline"><span data-lang="es">Seguir en Instagram →</span><span data-lang="en">Follow on Instagram →</span></span>
         </a>
 
         <!-- Facebook -->
@@ -210,9 +231,9 @@
           <svg class="w-12 h-12 mx-auto mb-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
           <h3 class="font-semibold text-lg text-gray-800 mb-2">Facebook</h3>
           <p class="text-gray-500 text-sm leading-relaxed">
-            Noticias, avisos y actividades de la iglesia. Únase a nuestra comunidad.
+            <span data-lang="es">Noticias, avisos y actividades de la iglesia. Únase a nuestra comunidad.</span><span data-lang="en">News, announcements, and church activities. Join our community.</span>
           </p>
-          <span class="inline-block mt-4 text-blue-600 font-medium text-sm group-hover:underline">Seguir en Facebook →</span>
+          <span class="inline-block mt-4 text-blue-600 font-medium text-sm group-hover:underline"><span data-lang="es">Seguir en Facebook →</span><span data-lang="en">Follow on Facebook →</span></span>
         </a>
 
       </div>
@@ -224,19 +245,19 @@
     <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
       <svg class="w-10 h-10 mx-auto mb-6 text-cafe-300 opacity-60" fill="currentColor" viewBox="0 0 24 24"><path d="M14.017 21v-7.391C14.017 10.049 16.52 7.484 19.982 7.484v-3.5C14.576 3.984 10.5 8.344 10.5 13.609V21h3.517zm-8.5 0v-7.391C5.517 10.049 8.02 7.484 11.482 7.484v-3.5C6.076 3.984 2 8.344 2 13.609V21h3.517z"/></svg>
       <blockquote class="font-serif italic text-xl md:text-2xl text-white leading-relaxed mb-4">
-        "Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito,
-        para que todo aquel que en él cree, no se pierda, mas tenga vida eterna."
+        <span data-lang="es">"Porque de tal manera amó Dios al mundo, que ha dado a su Hijo unigénito,
+        para que todo aquel que en él cree, no se pierda, mas tenga vida eterna."</span><span data-lang="en">"For God so loved the world that he gave his one and only Son, that whoever believes in him shall not perish but have eternal life."</span>
       </blockquote>
-      <cite class="text-cafe-300 font-medium not-italic text-lg">— Juan 3:16</cite>
+      <cite class="text-cafe-300 font-medium not-italic text-lg"><span data-lang="es">— Juan 3:16</span><span data-lang="en">— John 3:16</span></cite>
     </div>
   </section>
 
   <!-- ============ CTA CONTACTO ============ -->
   <section class="py-16 md:py-24">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-4">¿Desea visitarnos?</h2>
+      <h2 class="font-serif text-2xl md:text-3xl font-bold text-cafe-800 mb-4"><span data-lang="es">¿Desea visitarnos?</span><span data-lang="en">Would you like to visit us?</span></h2>
       <p class="text-gray-600 text-lg mb-8">
-        Estamos en Calle Echaurren #80, Santiago. Escríbanos o llámenos para más información.
+        <span data-lang="es">Estamos en Calle Echaurren #80, Santiago. Escríbanos o llámenos para más información.</span><span data-lang="en">We are located at Calle Echaurren #80, Santiago. Write to us or call us for more information.</span>
       </p>
       <div class="flex flex-col sm:flex-row gap-4 justify-center">
         <a href="mailto:contacto@icech80.cl" class="inline-flex items-center justify-center gap-2 bg-cafe-400 hover:bg-cafe-500 text-white font-semibold py-3 px-8 rounded-lg transition-colors shadow-md">
@@ -263,18 +284,21 @@
         </div>
         <!-- Col 2: Navegación -->
         <div>
-          <h4 class="font-semibold text-white mb-4">Navegación</h4>
+          <h4 class="font-semibold text-white mb-4"><span data-lang="es">Navegación</span><span data-lang="en">Navigation</span></h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="index.html" class="hover:text-white transition-colors">Inicio</a></li>
-            <li><a href="declaracion-de-fe.html" class="hover:text-white transition-colors">Declaración de Fe</a></li>
-            <li><a href="reuniones.html" class="hover:text-white transition-colors">Reuniones</a></li>
-            <li><a href="noticias.html" class="hover:text-white transition-colors">Noticias</a></li>
-            <li><a href="contacto.html" class="hover:text-white transition-colors">Contacto</a></li>
+            <li><a href="index.html" class="hover:text-white transition-colors"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a></li>
+            <li><a href="quienes-somos.html" class="hover:text-white transition-colors"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a></li>
+            <li><a href="declaracion-de-fe.html" class="hover:text-white transition-colors"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a></li>
+            <li><a href="reuniones.html" class="hover:text-white transition-colors"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a></li>
+            <li><a href="eventos.html" class="hover:text-white transition-colors"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a></li>
+            <li><a href="ministerios.html" class="hover:text-white transition-colors"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a></li>
+            <li><a href="noticias.html" class="hover:text-white transition-colors"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a></li>
+            <li><a href="contacto.html" class="hover:text-white transition-colors"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a></li>
           </ul>
         </div>
         <!-- Col 3: Contacto -->
         <div>
-          <h4 class="font-semibold text-white mb-4">Contacto</h4>
+          <h4 class="font-semibold text-white mb-4"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></h4>
           <ul class="space-y-2 text-sm">
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-cafe-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -285,7 +309,7 @@
               <a href="tel:+56974991233" class="hover:text-white transition-colors">+56 9 7499 1233</a>
             </li>
           </ul>
-          <h4 class="font-semibold text-white mt-6 mb-3">Síguenos</h4>
+          <h4 class="font-semibold text-white mt-6 mb-3"><span data-lang="es">Síguenos</span><span data-lang="en">Follow Us</span></h4>
           <div class="flex items-center gap-4">
             <a href="https://www.instagram.com/echaurren80?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="text-cafe-400 hover:text-white transition-colors" aria-label="Instagram">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -300,7 +324,7 @@
         </div>
       </div>
       <div class="border-t border-cafe-700 mt-10 pt-6 text-center text-sm text-cafe-500">
-        &copy; 2026 Iglesia Cristiana Echaurren 80. Todos los derechos reservados.
+        &copy; 2026 Iglesia Cristiana Echaurren 80. <span data-lang="es">Todos los derechos reservados.</span><span data-lang="en">All rights reserved.</span>
       </div>
     </div>
   </footer>

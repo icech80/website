@@ -10,9 +10,10 @@ Propuesta integral, optimizada para tiempo de carga y mantenimiento simple (solo
 |---|---|---|
 | Estructura | **HTML5 estático** | Sin build, máxima simplicidad, abre directo en navegador |
 | Estilos | **Tailwind CSS** (Play CDN) | Utility-first, sin paso de compilación |
-| Interactividad | **Alpine.js** (CDN) | Menú mobile, acordeón declaración de fe |
+| Interactividad | **Alpine.js** (CDN) | Menú mobile, acordeón declaración de fe, selector de idioma |
 | Iconos | **SVG inline** (Heroicons) | Sin librerías externas |
 | Tipografías | **Inter** (UI) + **Lora** (títulos/versículos) | Google Fonts |
+| i18n | **Alpine.js Store** + `data-lang` + CSS | Selector ES/EN, persistencia en localStorage |
 | Formulario de contacto | **Formspree** (pendiente configurar ID) | Sin backend propio |
 | Hosting | Por definir (GitHub Pages, Cloudflare Pages o Netlify) | Gratis, CDN global, HTTPS automático |
 | Analítica (opcional) | **Plausible** o **Umami** | Liviano, sin cookies |
@@ -47,7 +48,7 @@ Propuesta integral, optimizada para tiempo de carga y mantenimiento simple (solo
 - **Performance objetivo**: Lighthouse ≥ 95 en las 4 métricas; LCP < 1.5 s en 4G.
 - **Imágenes**: formato **WebP/AVIF**, `loading="lazy"`, tamaños responsivos (`srcset`).
 - **PWA (opcional)**: manifest + service worker para acceso offline al horario y declaración de fe.
-- **i18n (opcional futuro)**: textos en archivos JSON por idioma.
+- **i18n**: Español e inglés implementados con Alpine.js Store (`lang.js`) + atributos `data-lang` + CSS toggle. Selector de idioma en nav (desktop dropdown + mobile botones). Preferencia persistida en `localStorage`.
 
 ---
 
@@ -56,11 +57,15 @@ Propuesta integral, optimizada para tiempo de carga y mantenimiento simple (solo
 ```
 Website/
 ├── index.html                  # Página de inicio
+├── quienes-somos.html          # Quiénes Somos (próximamente)
 ├── declaracion-de-fe.html      # Declaración de Fe (acordeón)
 ├── reuniones.html              # Horarios y YouTube en vivo
+├── eventos.html                # Eventos (próximamente)
+├── ministerios.html            # Ministerios (próximamente)
 ├── noticias.html               # Noticias (próximamente)
 ├── contacto.html               # Formulario, mapa, datos de contacto
-├── styles.css                  # Estilos complementarios (animaciones, a11y)
+├── styles.css                  # Estilos complementarios (animaciones, a11y, i18n toggle)
+├── lang.js                     # Alpine.js Store para idioma (ES/EN + localStorage)
 ├── .gitignore                  # Archivos ignorados por git
 ├── Logo cafe grande.png        # Logo vertical
 ├── Logo cafe pequeño.png       # Logo horizontal
@@ -106,7 +111,8 @@ Website/
 | **F1 — Setup** | HTML + Tailwind CDN + Alpine.js, layout base, paleta, tipografías. | ✅ Completada |
 | **F2 — Páginas estáticas** | Home, Declaración de fe, Reuniones, Contacto. | ✅ Completada |
 | **F3 — Redes sociales** | YouTube (en vivo + grabaciones), Instagram, Facebook, WhatsApp flotante. | ✅ Completada |
-| **F4 — Contenido adicional** | Quiénes somos, Ministerios, Eventos, Galería, Ofrenda. | 🔲 Pendiente |
+| **F4 — Contenido adicional** | Quiénes somos, Ministerios, Eventos (placeholders). | ✅ Completada (placeholders) |
+| **F4b — Internacionalización** | Selector ES/EN, traducciones en 8 páginas, persistencia localStorage. | ✅ Completada |
 | **F5 — Optimización** | Auditoría Lighthouse, SEO, accesibilidad, imágenes WebP, sitemap. | 🔲 Pendiente |
 | **F6 — Lanzamiento** | Dominio, hosting, HTTPS, Formspree ID, analítica. | 🔲 Pendiente |
 
@@ -118,7 +124,7 @@ Website/
 |---|---|---|
 | 1 | Framework | ✅ HTML + Tailwind CDN + Alpine.js (máxima simplicidad) |
 | 2 | Logo y colores | ✅ Logo proporcionado (vertical + horizontal). Paleta: `#e5e5e6`, `#ac9784`, `#fff`, `#000` |
-| 3 | Idioma | ✅ Español únicamente |
+| 3 | Idioma | ✅ Español + Inglés (Alpine.js Store + `data-lang` + CSS toggle) |
 | 5 | Hosting | ✅ GitHub Pages — https://icech80.github.io/website/ (repo `icech80/website`) |
 | 7 | Redes sociales | ✅ YouTube, Instagram, Facebook, WhatsApp |
 | 8 | Teléfono / WhatsApp | ✅ +56 9 7499 1233 |
@@ -128,8 +134,8 @@ Website/
 1. Configurar **Formspree ID** en `contacto.html` (action del formulario).
 2. **Dominio personalizado**: ¿ya existe uno o se debe registrar? (actualmente en `icech80.github.io/website`).
 3. ¿Incluir sección de **ofrenda/donaciones** en la siguiente iteración?
-4. ¿Agregar páginas de **Quiénes somos** y **Ministerios**?
-5. Contenido para la sección de **Noticias**.
+4. Contenido real para las páginas placeholder: **Quiénes Somos**, **Eventos**, **Ministerios**, **Noticias**.
+5. Open Graph meta tags faltantes en algunas páginas secundarias.
 
 ---
 

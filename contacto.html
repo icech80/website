@@ -37,24 +37,44 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
+  <script src="lang.js"></script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
-<body class="bg-white text-gray-900 font-sans">
+<body class="bg-white text-gray-900 font-sans" x-data>
 
   <!-- ============ HEADER / NAV ============ -->
-  <header class="bg-white shadow-sm sticky top-0 z-50" x-data="{ open: false }">
+  <header class="bg-white shadow-sm sticky top-0 z-50" x-data="{ open: false, lang: false }">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-20">
         <a href="index.html" class="flex-shrink-0">
           <img src="Logo cafe grande.png" alt="Iglesia Cristiana Echaurren 80" class="h-14 w-auto">
         </a>
-        <nav class="hidden md:flex items-center space-x-8">
-          <a href="index.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Inicio</a>
-          <a href="declaracion-de-fe.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Declaración de Fe</a>
-          <a href="reuniones.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Reuniones</a>
-          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Noticias</a>
-          <a href="contacto.html" class="text-cafe-600 font-semibold border-b-2 border-cafe-400 pb-1">Contacto</a>
+        <nav class="hidden md:flex items-center space-x-6">
+          <a href="index.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a>
+          <a href="quienes-somos.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a>
+          <a href="declaracion-de-fe.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a>
+          <a href="reuniones.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a>
+          <a href="eventos.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a>
+          <a href="ministerios.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a>
+          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a>
+          <a href="contacto.html" class="text-cafe-600 font-semibold border-b-2 border-cafe-400 pb-1"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a>
+          <!-- Language selector -->
+          <div class="relative" @click.away="lang = false">
+            <button @click="lang = !lang" class="flex items-center gap-1 text-gray-500 hover:text-cafe-500 transition-colors text-sm font-medium px-2 py-1 rounded-md hover:bg-gris">
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/></svg>
+              <span x-text="$store.lang.current.toUpperCase()">ES</span>
+              <svg class="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/></svg>
+            </button>
+            <div x-show="lang" x-cloak x-transition class="absolute right-0 mt-2 w-36 bg-white rounded-lg shadow-lg border py-1 z-50">
+              <a href="#" @click.prevent="$store.lang.set('es'); lang = false" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors" :class="$store.lang.current === 'es' ? 'text-cafe-700 bg-cafe-50 font-medium' : 'text-gray-500 hover:bg-gris hover:text-gray-700'">
+                <span>🇪🇸</span> Español
+              </a>
+              <a href="#" @click.prevent="$store.lang.set('en'); lang = false" class="flex items-center gap-2 px-4 py-2 text-sm transition-colors" :class="$store.lang.current === 'en' ? 'text-cafe-700 bg-cafe-50 font-medium' : 'text-gray-500 hover:bg-gris hover:text-gray-700'">
+                <span>🇺🇸</span> English
+              </a>
+            </div>
+          </div>
         </nav>
         <button @click="open = !open" class="md:hidden p-2 rounded-md text-cafe-600 hover:bg-gris focus:outline-none" aria-label="Menú">
           <svg x-show="!open" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
@@ -64,11 +84,19 @@
     </div>
     <div x-show="open" x-cloak x-transition class="md:hidden bg-white border-t">
       <nav class="px-4 py-3 space-y-2">
-        <a href="index.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Inicio</a>
-        <a href="declaracion-de-fe.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Declaración de Fe</a>
-        <a href="reuniones.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris">Reuniones</a>
-          <a href="noticias.html" class="text-gray-600 hover:text-cafe-500 transition-colors">Noticias</a>
-        <a href="contacto.html" class="block py-2 px-3 rounded-md bg-cafe-50 text-cafe-700 font-medium">Contacto</a>
+        <a href="index.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a>
+        <a href="quienes-somos.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a>
+        <a href="declaracion-de-fe.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a>
+        <a href="reuniones.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a>
+        <a href="eventos.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a>
+        <a href="ministerios.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a>
+        <a href="noticias.html" class="block py-2 px-3 rounded-md text-gray-600 hover:bg-gris"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a>
+        <a href="contacto.html" class="block py-2 px-3 rounded-md bg-cafe-50 text-cafe-700 font-medium"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a>
+        <!-- Language selector mobile -->
+        <div class="border-t border-gray-100 pt-2 mt-2 flex gap-2 px-3">
+          <a href="#" @click.prevent="$store.lang.set('es')" class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md transition-colors" :class="$store.lang.current === 'es' ? 'text-cafe-700 font-medium bg-cafe-50' : 'text-gray-500 hover:bg-gris'">🇪🇸 ES</a>
+          <a href="#" @click.prevent="$store.lang.set('en')" class="flex items-center gap-1 text-sm px-3 py-1.5 rounded-md transition-colors" :class="$store.lang.current === 'en' ? 'text-cafe-700 font-medium bg-cafe-50' : 'text-gray-500 hover:bg-gris'">🇺🇸 EN</a>
+        </div>
       </nav>
     </div>
   </header>
@@ -76,9 +104,9 @@
   <!-- ============ PAGE HEADER ============ -->
   <section class="bg-gris py-16 md:py-20">
     <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-      <h1 class="font-serif text-3xl md:text-4xl font-bold text-cafe-800 mb-4">Contacto</h1>
+      <h1 class="font-serif text-3xl md:text-4xl font-bold text-cafe-800 mb-4"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></h1>
       <p class="text-gray-600 text-lg">
-        Estamos para servirle. No dude en escribirnos o visitarnos.
+        <span data-lang="es">Estamos para servirle. No dude en escribirnos o visitarnos.</span><span data-lang="en">We are here to serve you. Don't hesitate to write to us or visit us.</span>
       </p>
     </div>
   </section>
@@ -90,41 +118,41 @@
 
         <!-- Formulario -->
         <div>
-          <h2 class="font-serif text-2xl font-bold text-cafe-800 mb-6">Envíenos un mensaje</h2>
+          <h2 class="font-serif text-2xl font-bold text-cafe-800 mb-6"><span data-lang="es">Envíenos un mensaje</span><span data-lang="en">Send Us a Message</span></h2>
           <form action="https://formspree.io/f/YOUR_FORM_ID" method="POST" class="space-y-5">
             <div>
-              <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1">Nombre completo</label>
+              <label for="nombre" class="block text-sm font-medium text-gray-700 mb-1"><span data-lang="es">Nombre completo</span><span data-lang="en">Full name</span></label>
               <input type="text" id="nombre" name="nombre" required autocomplete="name"
                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 outline-none transition-colors">
             </div>
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Correo electrónico</label>
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1"><span data-lang="es">Correo electrónico</span><span data-lang="en">Email address</span></label>
               <input type="email" id="email" name="email" required autocomplete="email"
                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 outline-none transition-colors">
             </div>
             <div>
-              <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1">Teléfono <span class="text-gray-400">(opcional)</span></label>
+              <label for="telefono" class="block text-sm font-medium text-gray-700 mb-1"><span data-lang="es">Teléfono <span class="text-gray-400">(opcional)</span></span><span data-lang="en">Phone <span class="text-gray-400">(optional)</span></span></label>
               <input type="tel" id="telefono" name="telefono" autocomplete="tel"
                      class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 outline-none transition-colors">
             </div>
             <div>
-              <label for="mensaje" class="block text-sm font-medium text-gray-700 mb-1">Mensaje</label>
+              <label for="mensaje" class="block text-sm font-medium text-gray-700 mb-1"><span data-lang="es">Mensaje</span><span data-lang="en">Message</span></label>
               <textarea id="mensaje" name="mensaje" rows="5" required
                         class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-cafe-400 focus:border-cafe-400 outline-none transition-colors resize-y"></textarea>
             </div>
             <button type="submit"
                     class="w-full bg-cafe-400 hover:bg-cafe-500 text-white font-semibold py-3 px-6 rounded-lg transition-colors shadow-md">
-              Enviar mensaje
+              <span data-lang="es">Enviar mensaje</span><span data-lang="en">Send message</span>
             </button>
           </form>
           <p class="text-xs text-gray-400 mt-3">
-            Al enviar este formulario acepta que sus datos serán utilizados únicamente para responder su consulta.
+            <span data-lang="es">Al enviar este formulario acepta que sus datos serán utilizados únicamente para responder su consulta.</span><span data-lang="en">By submitting this form you agree that your data will be used solely to respond to your inquiry.</span>
           </p>
         </div>
 
         <!-- Info de contacto -->
         <div>
-          <h2 class="font-serif text-2xl font-bold text-cafe-800 mb-6">Información de contacto</h2>
+          <h2 class="font-serif text-2xl font-bold text-cafe-800 mb-6"><span data-lang="es">Información de contacto</span><span data-lang="en">Contact Information</span></h2>
 
           <div class="space-y-6">
             <!-- Dirección -->
@@ -133,11 +161,11 @@
                 <svg class="w-6 h-6 text-cafe-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
               </div>
               <div>
-                <h3 class="font-semibold text-cafe-700 mb-1">Dirección</h3>
+                <h3 class="font-semibold text-cafe-700 mb-1"><span data-lang="es">Dirección</span><span data-lang="en">Address</span></h3>
                 <p class="text-gray-600">Calle Echaurren #80<br>Santiago, Chile</p>
                 <a href="https://www.google.com/maps/search/Echaurren+80+Santiago+Chile" target="_blank" rel="noopener noreferrer"
                    class="text-cafe-500 hover:text-cafe-700 text-sm font-medium mt-1 inline-block transition-colors">
-                  Ver en Google Maps →
+                  <span data-lang="es">Ver en Google Maps →</span><span data-lang="en">View on Google Maps →</span>
                 </a>
               </div>
             </div>
@@ -148,7 +176,7 @@
                 <svg class="w-6 h-6 text-cafe-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
               </div>
               <div>
-                <h3 class="font-semibold text-cafe-700 mb-1">Correo electrónico</h3>
+                <h3 class="font-semibold text-cafe-700 mb-1"><span data-lang="es">Correo electrónico</span><span data-lang="en">Email</span></h3>
                 <a href="mailto:contacto@icech80.cl" class="text-gray-600 hover:text-cafe-500 transition-colors">contacto@icech80.cl</a>
               </div>
             </div>
@@ -159,7 +187,7 @@
                 <svg class="w-6 h-6 text-cafe-500" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z"/></svg>
               </div>
               <div>
-                <h3 class="font-semibold text-cafe-700 mb-1">Teléfono / WhatsApp</h3>
+                <h3 class="font-semibold text-cafe-700 mb-1"><span data-lang="es">Teléfono / WhatsApp</span><span data-lang="en">Phone / WhatsApp</span></h3>
                 <a href="tel:+56974991233" class="text-gray-600 hover:text-cafe-500 transition-colors">+56 9 7499 1233</a>
               </div>
             </div>
@@ -170,10 +198,10 @@
                 <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
               </div>
               <div>
-                <h3 class="font-semibold text-cafe-700 mb-1">Escríbanos por WhatsApp</h3>
+                <h3 class="font-semibold text-cafe-700 mb-1"><span data-lang="es">Escríbanos por WhatsApp</span><span data-lang="en">Write to Us on WhatsApp</span></h3>
                 <a href="https://wa.me/56974991233" target="_blank" rel="noopener noreferrer"
                    class="inline-block mt-1 bg-green-500 hover:bg-green-600 text-white text-sm font-medium py-2 px-5 rounded-full transition-colors">
-                  Abrir WhatsApp
+                  <span data-lang="es">Abrir WhatsApp</span><span data-lang="en">Open WhatsApp</span>
                 </a>
               </div>
             </div>
@@ -181,11 +209,11 @@
 
           <!-- Horarios rápidos -->
           <div class="mt-10 bg-cafe-50 rounded-2xl p-6">
-            <h3 class="font-semibold text-cafe-700 mb-3">Horarios de reunión</h3>
+            <h3 class="font-semibold text-cafe-700 mb-3"><span data-lang="es">Horarios de reunión</span><span data-lang="en">Service Schedule</span></h3>
             <ul class="space-y-2 text-gray-600 text-sm">
-              <li class="flex justify-between"><span>Escuela Dominical</span><span class="font-medium text-cafe-600">Dom 11:45 hrs</span></li>
-              <li class="flex justify-between"><span>Estudio Bíblico y Oración</span><span class="font-medium text-cafe-600">Mié 19:30 hrs</span></li>
-              <li class="flex justify-between"><span>Mujeres y Jóvenes</span><span class="font-medium text-cafe-600">Un sábado/mes</span></li>
+              <li class="flex justify-between"><span><span data-lang="es">Escuela Dominical</span><span data-lang="en">Sunday School</span></span><span class="font-medium text-cafe-600"><span data-lang="es">Dom 11:45 hrs</span><span data-lang="en">Sun 11:45 AM</span></span></li>
+              <li class="flex justify-between"><span><span data-lang="es">Estudio Bíblico y Oración</span><span data-lang="en">Bible Study &amp; Prayer</span></span><span class="font-medium text-cafe-600"><span data-lang="es">Mié 19:30 hrs</span><span data-lang="en">Wed 7:30 PM</span></span></li>
+              <li class="flex justify-between"><span><span data-lang="es">Mujeres y Jóvenes</span><span data-lang="en">Women &amp; Youth</span></span><span class="font-medium text-cafe-600"><span data-lang="es">Un sábado/mes</span><span data-lang="en">One Sat/month</span></span></li>
             </ul>
           </div>
         </div>
@@ -220,17 +248,20 @@
           <p class="text-sm text-cafe-400 mt-1">Calle Echaurren #80, Santiago, Chile</p>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-4">Navegación</h4>
+          <h4 class="font-semibold text-white mb-4"><span data-lang="es">Navegación</span><span data-lang="en">Navigation</span></h4>
           <ul class="space-y-2 text-sm">
-            <li><a href="index.html" class="hover:text-white transition-colors">Inicio</a></li>
-            <li><a href="declaracion-de-fe.html" class="hover:text-white transition-colors">Declaración de Fe</a></li>
-            <li><a href="reuniones.html" class="hover:text-white transition-colors">Reuniones</a></li>
-            <li><a href="noticias.html" class="hover:text-white transition-colors">Noticias</a></li>
-            <li><a href="contacto.html" class="hover:text-white transition-colors">Contacto</a></li>
+            <li><a href="index.html" class="hover:text-white transition-colors"><span data-lang="es">Inicio</span><span data-lang="en">Home</span></a></li>
+            <li><a href="quienes-somos.html" class="hover:text-white transition-colors"><span data-lang="es">Quiénes Somos</span><span data-lang="en">About Us</span></a></li>
+            <li><a href="declaracion-de-fe.html" class="hover:text-white transition-colors"><span data-lang="es">Declaración de Fe</span><span data-lang="en">Statement of Faith</span></a></li>
+            <li><a href="reuniones.html" class="hover:text-white transition-colors"><span data-lang="es">Reuniones</span><span data-lang="en">Services</span></a></li>
+            <li><a href="eventos.html" class="hover:text-white transition-colors"><span data-lang="es">Eventos</span><span data-lang="en">Events</span></a></li>
+            <li><a href="ministerios.html" class="hover:text-white transition-colors"><span data-lang="es">Ministerios</span><span data-lang="en">Ministries</span></a></li>
+            <li><a href="noticias.html" class="hover:text-white transition-colors"><span data-lang="es">Noticias</span><span data-lang="en">News</span></a></li>
+            <li><a href="contacto.html" class="hover:text-white transition-colors"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></a></li>
           </ul>
         </div>
         <div>
-          <h4 class="font-semibold text-white mb-4">Contacto</h4>
+          <h4 class="font-semibold text-white mb-4"><span data-lang="es">Contacto</span><span data-lang="en">Contact</span></h4>
           <ul class="space-y-2 text-sm">
             <li class="flex items-center gap-2">
               <svg class="w-4 h-4 text-cafe-400" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
@@ -241,7 +272,7 @@
               <a href="tel:+56974991233" class="hover:text-white transition-colors">+56 9 7499 1233</a>
             </li>
           </ul>
-          <h4 class="font-semibold text-white mt-6 mb-3">Síguenos</h4>
+          <h4 class="font-semibold text-white mt-6 mb-3"><span data-lang="es">Síguenos</span><span data-lang="en">Follow Us</span></h4>
           <div class="flex items-center gap-4">
             <a href="https://www.instagram.com/echaurren80?utm_source=ig_web_button_share_sheet&igsh=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" class="text-cafe-400 hover:text-white transition-colors" aria-label="Instagram">
               <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
@@ -256,7 +287,7 @@
         </div>
       </div>
       <div class="border-t border-cafe-700 mt-10 pt-6 text-center text-sm text-cafe-500">
-        &copy; 2026 Iglesia Cristiana Echaurren 80. Todos los derechos reservados.
+        &copy; 2026 Iglesia Cristiana Echaurren 80. <span data-lang="es">Todos los derechos reservados.</span><span data-lang="en">All rights reserved.</span>
       </div>
     </div>
   </footer>
