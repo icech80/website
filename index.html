@@ -37,10 +37,37 @@
       },
     }
   </script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.googleapis.com">index.html:57  GET https://www.googleapis.com/youtube/v3/search?part=snippet&channelId=UCBiNAy11AEq1AjwyoOCygNw&eventType=live&type=video&maxResults=1&key=AIzaSyBu2ymZnCsesXsJ-wgSQTT-vNWzzIsoSRc 403 (Forbidden)
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Lora:ital,wght@0,400;0,600;0,700;1,400&display=swap" rel="stylesheet">
   <script src="lang.js"></script>
+  <!-- YouTube Live Stream Detection (canal: @IglesiaCristianaEchaurren80) -->
+  <script>
+    (function() {
+      var CHANNEL_ID = 'UCBiNAy11AEq1AjwyoOCygNw';
+      var API_KEY    = 'AIzaSyBu2ymZnCsesXsJ-wgSQTT-vNWzzIsoSRc'; // <-- Pegar aquí tu YouTube API key
+
+      if (API_KEY === 'REEMPLAZAR_CON_TU_API_KEY') return; // No configurada aún
+
+      var url = 'https://www.googleapis.com/youtube/v3/search'
+        + '?part=snippet&channelId=' + CHANNEL_ID
+        + '&eventType=live&type=video&maxResults=1'
+        + '&key=' + API_KEY;
+
+      fetch(url)
+        .then(function(r) { return r.json(); })
+        .then(function(data) {
+          if (data.items && data.items.length > 0) {
+            var videoId = data.items[0].id.videoId;
+            document.getElementById('yt-live-player').src =
+              'https://www.youtube.com/embed/' + videoId
+              + '?autoplay=1&mute=1&modestbranding=1&rel=0';
+            document.getElementById('live-section').hidden = false;
+          }
+        })
+        .catch(function() { /* sin conexión o error — no mostrar */ });
+    })();
+  </script>
   <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
   <link rel="stylesheet" href="styles.css">
 </head>
@@ -103,6 +130,36 @@
       </nav>
     </div>
   </header>
+
+  <!-- ============ EN VIVO (auto-detectado vía YouTube IFrame API) ============ -->
+  <section id="live-section" hidden class="bg-cafe-900">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-8 md:py-10">
+      <div class="flex flex-col sm:flex-row items-start sm:items-center gap-3 mb-5">
+        <span class="inline-flex items-center gap-1.5 bg-red-600 text-white text-xs font-bold uppercase tracking-wider px-3 py-1 rounded-full">
+          <span class="w-2 h-2 bg-white rounded-full animate-pulse"></span>
+          <span data-lang="es">En Vivo</span><span data-lang="en">Live</span>
+        </span>
+        <p class="text-white/80 text-sm"><span data-lang="es">Estamos transmitiendo en vivo. ¡Acompáñenos!</span><span data-lang="en">We are streaming live. Join us!</span></p>
+      </div>
+      <div class="aspect-video rounded-xl overflow-hidden shadow-2xl bg-black">
+        <iframe id="yt-live-player"
+          src="about:blank"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+          allowfullscreen
+          referrerpolicy="no-referrer-when-downgrade"
+          title="Transmisión en vivo — Iglesia Cristiana Echaurren 80"
+          style="width:100%;height:100%;border:0;">
+        </iframe>
+      </div>
+      <div class="mt-4 text-center">
+        <a href="https://www.youtube.com/@IglesiaCristianaEchaurren80" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center gap-2 text-cafe-300 hover:text-white text-sm font-medium transition-colors">
+          <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M23.498 6.186a3.016 3.016 0 00-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 00.502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 002.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 002.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+          <span data-lang="es">Abrir en YouTube →</span><span data-lang="en">Open in YouTube →</span>
+        </a>
+      </div>
+    </div>
+  </section>
 
   <!-- ============ HERO ============ -->
   <section class="relative bg-gris overflow-hidden">

@@ -53,6 +53,24 @@ html {
   }
 }
 
+/* Live section: fade-in cuando se muestra */
+@media (prefers-reduced-motion: no-preference) {
+  #live-section:not([hidden]) {
+    animation: fadeSlideIn 0.5s ease-out;
+  }
+
+  @keyframes fadeSlideIn {
+    from {
+      opacity: 0;
+      transform: translateY(-20px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
 /* Botón WhatsApp: pulso suave */
 @media (prefers-reduced-motion: no-preference) {
   a[aria-label="Escribir por WhatsApp"] {
